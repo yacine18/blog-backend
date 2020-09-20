@@ -2,9 +2,6 @@
   "name": "blog-api",
   "version": "1.0.0",
   "description": "BLOG API",
-  "engines": {
-    "node": "v12.18.3"
-  },
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
