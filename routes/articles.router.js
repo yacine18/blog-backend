@@ -16,7 +16,7 @@ router.get("/", (req, res) => {
 })
 
 //post article
-router.post('/create', async (req, res) => {
+router.post('/create',auth, async (req, res) => {
     const { title, description } = req.body
     if (!title || !description) {
         return res.status(401).json({ msg: "All Fields required!" })
@@ -32,7 +32,7 @@ router.post('/create', async (req, res) => {
 })
 
 //edit article
-router.put('/edit/:id', async (req, res) => {
+router.put('/edit/:id',auth, async (req, res) => {
     const { title, description } = req.body
     const id = ({ _id: req.params.id })
     if (!title || !description) {
