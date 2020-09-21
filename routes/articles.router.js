@@ -57,7 +57,7 @@ router.put('/edit/:id', async (req, res) => {
 })
 
 //delete article
-router.delete('/delete/:id', (req,res)=>{
+router.delete('/delete/:id',auth, (req,res)=>{
     const id = ({_id:req.params.id})
     Article.findByIdAndDelete(id,(err)=>{
         if(!err){
