@@ -32,7 +32,7 @@ router.post('/create',auth, async (req, res) => {
 })
 
 //edit article
-router.put('/edit/:id',auth, async (req, res) => {
+router.put('/edit/:id', async (req, res) => {
     const { title, description } = req.body
     const id = ({ _id: req.params.id })
     if (!title || !description) {
