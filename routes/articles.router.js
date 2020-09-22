@@ -3,6 +3,24 @@ const router = express.Router()
 const auth = require('../middleware/auth')
 const Article = require('../models/article.model')
 require('../config/database')
+const multer = require('multer')
+
+
+const storage = multer.diskStorage({
+    destination: function(req,file,cb){
+        cb(null, './uploads')
+    },
+    filename: function(req,file,cb){
+        cb(null, file.originalname)
+    }
+})
+
+const upload = multer({
+    storage: storage,
+    limits:{
+        fileSize: 1024*1024*5
+    }
+})
 
 
 router.get("/", (req, res) => {
@@ -16,19 +34,22 @@ router.get("/", (req, res) => {
 })
 
 //post article
-router.post('/create',auth, async (req, res) => {
+router.post('/create', upload.single('image'), async (req, res) => {
     const { title, description } = req.body
-    if (!title || !description) {
+    const {path} = req.file 
+    if (!title || !description || !path) {
         return res.status(401).json({ msg: "All Fields required!" })
     }
     const newArticle = await new Article({
         title,
         description,
+        image: path,
         created_at: Date.now()
     })
 
     const savedArticle = await newArticle.save()
     res.status(201).json(savedArticle)
+    console.log(savedArticle)
 })
 
 //edit article
