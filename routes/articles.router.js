@@ -49,7 +49,6 @@ router.post('/create', upload.single('image'), async (req, res) => {
 
     const savedArticle = await newArticle.save()
     res.status(201).json(savedArticle)
-    console.log(savedArticle)
 })
 
 //edit article
