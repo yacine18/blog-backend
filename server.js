@@ -7,6 +7,8 @@ const app = express()
 
 app.use(express.json())
 app.use('/uploads', express.static('uploads'))
+app.use(cors())
+
 
 
 // app.use( (req,res,next)=> {
@@ -21,7 +23,6 @@ app.use('/uploads', express.static('uploads'))
 // })
 
 //routes
-app.use(cors())
 
 const articlesRouter = require('./routes/articles.router')
 app.use('/api/articles',articlesRouter)
