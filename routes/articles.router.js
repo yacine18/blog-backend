@@ -52,7 +52,7 @@ router.post('/create', upload.single('image'), async (req, res) => {
 })
 
 //edit article
-router.put('/edit/:id',upload.single('image'), async (req, res) => {
+router.put('/edit/:id', upload.single('image'), async (req, res) => {
     const { title, description } = req.body
     const { path } = req.file
     const id = ({ _id: req.params.id })
