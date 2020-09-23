@@ -8,7 +8,7 @@ const multer = require('multer')
 
 const storage = multer.diskStorage({
     destination: function(req,file,cb){
-        cb(null, './uploads/')
+        cb(null, './uploads')
     },
     filename: function(req,file,cb){
         cb(null, file.originalname)
@@ -52,20 +52,22 @@ router.post('/create', upload.single('image'), async (req, res) => {
 })
 
 //edit article
-router.put('/edit/:id', async (req, res) => {
+router.put('/edit/:id',upload.single('image'), async (req, res) => {
     const { title, description } = req.body
+    const { path } = req.file
     const id = ({ _id: req.params.id })
-    if (!title || !description) {
+    if (!title || !description || !path) {
         return res.status(401).json({ msg: "All Fields are required!" })
     }
 
     const editArticle = {
         title,
         description,
+        image: path,
         created_at: Date.now()
     }
 
-     Article.updateOne(id, editArticle, (err) => {
+    await Article.updateOne(id, editArticle, (err) => {
        
         if(!err){
            res.status(201).json({ msg: "Article was updated successfully" })
