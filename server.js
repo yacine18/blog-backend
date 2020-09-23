@@ -9,6 +9,9 @@ app.use(express.json())
 app.use(cors())
 app.use('/uploads', express.static('uploads'))
 
+const usersRouetr = require('./routes/users.router')
+app.use('/api/users', usersRouetr)
+
 app.use( (req,res,next)=> {
     res.header('Access-Control-Allow-Origin', '*')
     res.header('Access-Control-Allow-Headers, Origin, X-Requested-With, Content-Type, Accept, Authorization')
@@ -23,9 +26,6 @@ app.use( (req,res,next)=> {
 const articlesRouter = require('./routes/articles.router')
 app.use('/api/articles',articlesRouter)
 
-
-const usersRouetr = require('./routes/users.router')
-app.use('/api/users', usersRouetr)
 
 app.get('/',(req,res)=>{
     res.redirect('/api/articles')
