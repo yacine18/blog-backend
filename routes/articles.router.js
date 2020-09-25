@@ -36,17 +36,20 @@ router.get("/", (req, res) => {
 //post article
 router.post('/create', upload.single('image'), async (req, res) => {
     const { title, description } = req.body
-    const {path} = req.file 
-    if (!title || !description || !path) {
+    if(!req.file){
+        return res.status(401).json({ msg: "No File Uploaded!" })
+    }
+    if (!title || !description) {
         return res.status(401).json({ msg: "All Fields required!" })
     }
+    console.log(req.file)
     const newArticle = await new Article({
         title,
         description,
-        image: path,
+        image: req.file.path,
         created_at: Date.now()
     })
-
+    
     const savedArticle = await newArticle.save()
     res.status(201).json(savedArticle)
 })
@@ -54,16 +57,19 @@ router.post('/create', upload.single('image'), async (req, res) => {
 //edit article
 router.put('/edit/:id', upload.single('image'), async (req, res) => {
     const { title, description } = req.body
-    const { path } = req.file
     const id = ({ _id: req.params.id })
-    if (!title || !description || !path) {
+    if(req.file === null){
+        return res.status(401).json({ msg: "No File Uploaded!" })
+    }
+
+    if (!title || !description) {
         return res.status(401).json({ msg: "All Fields are required!" })
     }
 
     const editArticle = {
         title,
         description,
-        image: path,
+        image: req.file.path,
         created_at: Date.now()
     }
 

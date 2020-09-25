@@ -76,8 +76,9 @@ router.post('/login', async (req, res) => {
         if(!isMatch){
             return res.status(400).json({ msg: "Wrong Credentials" })
         }
-
-        const token = jwt.sign({_id: user._id}, process.env.JWT_SECRET)
+        
+        const jwtSecret = process.env.JWT_SECRET
+        const token = jwt.sign({_id: user._id}, jwtSecret)
         res.json({
             token,
             user:{
@@ -99,8 +100,9 @@ router.post('/tokenIsValid', async(req,res)=>{
          if(!token){
              return res.json(false)
          }
-
-         const verified = jwt.verify(token, process.env.JWT_SECRET)
+         
+         const jwtSecret = process.env.JWT_SECRET
+         const verified = jwt.verify(token, jwtSecret)
          if(!verified){
              return res.json(false)
          }
